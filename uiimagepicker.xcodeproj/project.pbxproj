@@ -21,6 +21,7 @@
 		C555CC2D18C488160078EC73 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C555CC0F18C488160078EC73 /* UIKit.framework */; };
 		C555CC3518C488160078EC73 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C555CC3318C488160078EC73 /* InfoPlist.strings */; };
 		C555CC3718C488160078EC73 /* uiimagepickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C555CC3618C488160078EC73 /* uiimagepickerTests.m */; };
+		C555CC4118C48DEC0078EC73 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C555CC4018C48DEC0078EC73 /* ImageIO.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		C555CC3218C488160078EC73 /* uiimagepickerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "uiimagepickerTests-Info.plist"; sourceTree = "<group>"; };
 		C555CC3418C488160078EC73 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C555CC3618C488160078EC73 /* uiimagepickerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = uiimagepickerTests.m; sourceTree = "<group>"; };
+		C555CC4018C48DEC0078EC73 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C555CC4118C48DEC0078EC73 /* ImageIO.framework in Frameworks */,
 				C555CC0E18C488160078EC73 /* CoreGraphics.framework in Frameworks */,
 				C555CC1018C488160078EC73 /* UIKit.framework in Frameworks */,
 				C555CC0C18C488160078EC73 /* Foundation.framework in Frameworks */,
@@ -101,6 +104,7 @@
 		C555CC0A18C488160078EC73 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C555CC4018C48DEC0078EC73 /* ImageIO.framework */,
 				C555CC0B18C488160078EC73 /* Foundation.framework */,
 				C555CC0D18C488160078EC73 /* CoreGraphics.framework */,
 				C555CC0F18C488160078EC73 /* UIKit.framework */,

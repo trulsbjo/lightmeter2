@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ImageIO/ImageIO.h>
+#import <ImageIO/CGImageDestination.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+- (IBAction)takePicture:(id)sender;
+
 
 @end
