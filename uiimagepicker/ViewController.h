@@ -14,5 +14,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 - (IBAction)takePicture:(id)sender;
 
+@property (strong, nonatomic) NSArray *shutterValues;
+@property (strong, nonatomic) NSArray *apertureValues;
+@property (strong, nonatomic) NSArray *isoValues;
+
+@property (weak, nonatomic) IBOutlet UIPickerView *valuePicker;
 
 @end
