@@ -82,13 +82,70 @@
     NSLog(@"aperture: %@", fnumber);
     
     //setting picker value for aperture
-    for (int i=0; i<[_apertureValues count]; i++) {
-        NSString *apertureString = [_apertureValues objectAtIndex:i];
-        apertureString = [[apertureString componentsSeparatedByString:@"/"] objectAtIndex:1];
-        if ([[NSString stringWithFormat:@"%@", fnumber] isEqualToString:[NSString stringWithFormat:@"%@", apertureString]]) {
-            [self.valuePicker selectRow:i inComponent:1 animated:YES];
-        }
+    
+    double apertureValue = [fnumber doubleValue];
+    
+    if (apertureValue <= 32 && apertureValue >= 27) {
+        [self.valuePicker selectRow:0 inComponent:1 animated:YES];
     }
+    if (apertureValue < 27 && apertureValue >= 22) {
+        [self.valuePicker selectRow:1 inComponent:1 animated:YES];
+    }
+    if (apertureValue <= 22 && apertureValue >= 19) {
+        [self.valuePicker selectRow:1 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 19 && apertureValue >= 16) {
+        [self.valuePicker selectRow:2 inComponent:1 animated:YES];
+    }
+    if (apertureValue <= 16 && apertureValue >= 13.5) {
+        [self.valuePicker selectRow:2 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 13.5 && apertureValue >= 11) {
+        [self.valuePicker selectRow:3 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 11 && apertureValue >= 9.5) {
+        [self.valuePicker selectRow:3 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 9.5 && apertureValue >= 8) {
+        [self.valuePicker selectRow:4 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 8 && apertureValue >= 6.8) {
+        [self.valuePicker selectRow:4 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 6.8 && apertureValue >= 5.6) {
+        [self.valuePicker selectRow:5 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 5.6 && apertureValue >= 4.8) {
+        [self.valuePicker selectRow:5 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 4.8 && apertureValue >= 4) {
+        [self.valuePicker selectRow:6 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 4 && apertureValue >= 3.4) {
+        [self.valuePicker selectRow:6 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 3.4 && apertureValue >= 2.8) {
+        [self.valuePicker selectRow:7 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 2.8 && apertureValue >= 2.4) {
+        [self.valuePicker selectRow:7 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 2.4 && apertureValue >= 2) {
+        [self.valuePicker selectRow:8 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 2 && apertureValue >= 1.7) {
+        [self.valuePicker selectRow:8 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 1.7 && apertureValue >= 1.4) {
+        [self.valuePicker selectRow:9 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 1.4 && apertureValue >= 1.2) {
+        [self.valuePicker selectRow:9 inComponent:1 animated:YES];
+    }
+    if (apertureValue < 1.2 && apertureValue >= 1.0) {
+        [self.valuePicker selectRow:10 inComponent:1 animated:YES];
+    }
+    
     
     //setting picker value for shutter
     double shutterValue = [shutter doubleValue];
@@ -184,6 +241,12 @@
     }
     if (isoValue >= 1200 && isoValue <= 1600) {
         [self.valuePicker selectRow:5 inComponent:2 animated:YES];
+    }
+    if (isoValue > 1600 && isoValue < 2400) {
+        [self.valuePicker selectRow:5 inComponent:2 animated:YES];
+    }
+    if (isoValue >= 2400 && isoValue <= 3200) {
+        [self.valuePicker selectRow:6 inComponent:2 animated:YES];
     }
     
 }
