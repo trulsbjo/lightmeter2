@@ -66,6 +66,25 @@
 
     
     
+
+    CGFloat brightness = 0.5;
+    UIImage *brighten = [self addBrightness:chosenImage :&brightness];
+    
+//    self.imageView.image = brighten;
+   
+    
+    
+    
+    CGFloat darkness = 0.5;
+    UIImage *darknen = [self addDarkness:chosenImage :&darkness];
+    
+    self.imageView.image = darknen;
+    
+    
+    
+    
+    
+    //getting metadata from taken image
     NSDictionary *metadata = info[UIImagePickerControllerMediaMetadata];
     
     NSDictionary *exifMetadata = [metadata objectForKey:(id)kCGImagePropertyExifDictionary];
@@ -252,6 +271,7 @@
 }
 
 
+
 // If the user hit cancel
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     // All we really want to do is close the picker
@@ -259,6 +279,47 @@
     
 }
 
+- (UIImage*) addBrightness: (UIImage*)image :(CGFloat*) brightness {
+    
+    UIGraphicsBeginImageContext(image.size);
+    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    // Original image
+    [image drawInRect:imageRect];
+    
+    // Brightness overlay
+    CGContextSetFillColorWithColor(context, [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:*brightness].CGColor);
+    CGContextAddRect(context, imageRect);
+    CGContextFillPath(context);
+    
+    UIImage* resultBrightImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    
+    return resultBrightImage;
+}
+
+- (UIImage*) addDarkness: (UIImage*)image :(CGFloat*) darkness {
+    
+    UIGraphicsBeginImageContext(image.size);
+    CGRect imagedDarkRect = CGRectMake(0, 0, image.size.width, image.size.height);
+    CGContextRef darkContext = UIGraphicsGetCurrentContext();
+    
+    // Original image
+    [image drawInRect:imagedDarkRect];
+    
+    // Brightness overlay
+    CGContextSetFillColorWithColor(darkContext, [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:*darkness].CGColor);
+    CGContextAddRect(darkContext, imagedDarkRect);
+    CGContextFillPath(darkContext);
+    
+    UIImage* resultDarkImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    
+    return resultDarkImage;
+}
 
 #pragma mark -
 #pragma mark PickerView DataSource
