@@ -14,6 +14,10 @@
 
 @implementation ViewController
 
+int shutterPickerIndex;
+int aperturePickerIndex;
+int isoPickerIndex;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -25,6 +29,10 @@
     _apertureValues = @[@"f/32", @"f/22", @"f/16", @"f/11", @"f/8", @"f/5.6", @"f/4", @"f/2.8", @"f/2", @"f/1.4", @"f/1.0"];
     
     _isoValues = @[@"50" ,@"100", @"200", @"400", @"800", @"1600", @"3200"];
+    
+    shutterPickerIndex = 0;
+    aperturePickerIndex = 0;
+    isoPickerIndex = 0;
     
 
 }
@@ -268,6 +276,15 @@
         [self.valuePicker selectRow:6 inComponent:2 animated:YES];
     }
     
+     shutterPickerIndex = (int) [self.valuePicker selectedRowInComponent:0];
+     aperturePickerIndex = (int) [self.valuePicker selectedRowInComponent:1];
+     isoPickerIndex = (int) [self.valuePicker selectedRowInComponent:2];
+    
+    NSLog(@"%f", shutterValue);
+    NSLog(@"%f", apertureValue);
+    NSLog(@"%f", isoValue);
+    
+    
 }
 
 
@@ -360,4 +377,28 @@ numberOfRowsInComponent:(NSInteger)component
         return [self.isoValues objectAtIndex:row];
     }
 }
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row
+      inComponent:(NSInteger)component
+{
+    if(component == 0) {
+        
+        int diff = (int) shutterPickerIndex - (int) row;
+        aperturePickerIndex += diff;
+        [pickerView selectRow:aperturePickerIndex inComponent:1 animated:YES];
+        shutterPickerIndex = (int) row;
+        
+    } else if (component == 1) {
+    
+        int diff = (int) aperturePickerIndex - (int) row;
+        shutterPickerIndex += diff;
+        [pickerView selectRow:shutterPickerIndex inComponent:0 animated:YES];
+        aperturePickerIndex= (int) row;
+        
+    } else {
+        isoPickerIndex = (int) row;
+    }
+    
+}
+
 @end
