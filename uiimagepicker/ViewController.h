@@ -10,7 +10,10 @@
 #import <ImageIO/ImageIO.h>
 #import <ImageIO/CGImageDestination.h>
 
-@interface ViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+    bool isChanged;
+
+}
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 - (IBAction)takePicture:(id)sender;
 
@@ -18,6 +21,12 @@
 @property (strong, nonatomic) NSArray *apertureValues;
 @property (strong, nonatomic) NSArray *isoValues;
 
+@property (strong, nonatomic) UISwipeGestureRecognizer *upSwipeGestureRecognizer;
+@property (strong, nonatomic) UISwipeGestureRecognizer *downSwipeGestureRecognizer;
+
+
 @property (weak, nonatomic) IBOutlet UIPickerView *valuePicker;
+@property (weak, nonatomic) IBOutlet UIButton *linkValues;
+- (IBAction)changeLinkedValues:(id)sender;
 
 @end

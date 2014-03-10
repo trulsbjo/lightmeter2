@@ -12,6 +12,7 @@
 
 @end
 
+
 @implementation ViewController
 
 int shutterPickerIndex;
@@ -34,8 +35,11 @@ int isoPickerIndex;
     aperturePickerIndex = 0;
     isoPickerIndex = 0;
     
-
+    isChanged = false;
+    
+    
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -75,18 +79,18 @@ int isoPickerIndex;
     
     
 
-    CGFloat brightness = 0.5;
-    UIImage *brighten = [self addBrightness:chosenImage :&brightness];
+//    CGFloat brightness = 0.5;
+//    UIImage *brighten = [self addBrightness:chosenImage :&brightness];
     
 //    self.imageView.image = brighten;
    
     
     
     
-    CGFloat darkness = 0.5;
-    UIImage *darknen = [self addDarkness:chosenImage :&darkness];
-    
-    self.imageView.image = darknen;
+//    CGFloat darkness = 0.5;
+//    UIImage *darknen = [self addDarkness:chosenImage :&darkness];
+//    
+//    self.imageView.image = darknen;
     
     
     
@@ -313,7 +317,6 @@ int isoPickerIndex;
     UIImage* resultBrightImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    
     return resultBrightImage;
 }
 
@@ -382,23 +385,63 @@ numberOfRowsInComponent:(NSInteger)component
       inComponent:(NSInteger)component
 {
     if(component == 0) {
-        
-        int diff = (int) shutterPickerIndex - (int) row;
-        aperturePickerIndex += diff;
-        [pickerView selectRow:aperturePickerIndex inComponent:1 animated:YES];
+        if (isChanged==true) {
+
+            int diff = (int) shutterPickerIndex - (int) row;
+            aperturePickerIndex += diff;
+            [pickerView selectRow:aperturePickerIndex inComponent:1 animated:YES];
+
+        }
+        else {
+            int diff = (int) shutterPickerIndex - (int) row;
+            NSLog(@"diff : %d", diff);
+            UIImage *image = self.imageView.image;
+            
+            if (diff<0) {
+                CGFloat brightness = 0.5;
+                UIImage *brighten = [self addBrightness:image :&brightness];
+                
+                self.imageView.image = brighten;
+            }
+            if (diff>0) {
+                CGFloat darkness = 0.5;
+                UIImage *darknen = [self addDarkness:image :&darkness];
+                
+                self.imageView.image = darknen;
+            }
+            
+        }
         shutterPickerIndex = (int) row;
         
-    } else if (component == 1) {
-    
-        int diff = (int) aperturePickerIndex - (int) row;
-        shutterPickerIndex += diff;
-        [pickerView selectRow:shutterPickerIndex inComponent:0 animated:YES];
-        aperturePickerIndex= (int) row;
         
+    } else if (component == 1) {
+        if (isChanged == true) {
+            int diff = (int) aperturePickerIndex - (int) row;
+            shutterPickerIndex += diff;
+            [pickerView selectRow:shutterPickerIndex inComponent:0 animated:YES];
+            
+        }
+        else {
+            
+    
+        }
+        aperturePickerIndex = (int) row;
+                
     } else {
         isoPickerIndex = (int) row;
     }
     
 }
 
+- (IBAction)changeLinkedValues:(id)sender {
+    isChanged = !isChanged;
+    if (isChanged==true) {
+        _linkValues.tintColor = [UIColor lightGrayColor];
+    }
+    else {
+        _linkValues.tintColor = [UIColor blueColor];
+    }
+    
+    
+}
 @end
