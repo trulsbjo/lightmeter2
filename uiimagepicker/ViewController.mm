@@ -394,7 +394,7 @@ int globalDiff = 0;
     
     if(component == 0) {
         if (isChanged==true) {
-
+            
             int diff = (int) shutterPickerIndex - (int) row;
             aperturePickerIndex += diff;
             [pickerView selectRow:aperturePickerIndex inComponent:1 animated:YES];
@@ -544,6 +544,66 @@ int globalDiff = 0;
         aperturePickerIndex = (int) row;
                 
     } else {
+        if (!isoHasChanged) {
+            int diff = (int) isoPickerIndex - (int) row;
+            NSLog(@"diff : %d", diff);
+            UIImage *image = self.imageView.image;
+            
+            cv::Mat img = [self cvMatFromUIImage:image];
+            int beta =0;
+            
+            if (diff<0) {
+                cv::Mat brighter;
+                beta = diff*-1;
+                img.convertTo(brighter, -1, 1, 25*beta);
+                
+                _imageView.image = [self UIImageFromCVMat:brighter];
+                
+                globalDiff += diff;
+                
+            }
+            if (diff>0) {
+                cv::Mat darker;
+                beta = diff;
+                img.convertTo(darker, -1, 1, -25*beta);
+                
+                _imageView.image = [self UIImageFromCVMat:darker];
+                
+                globalDiff += diff;
+            }
+            
+            isoHasChanged = true;
+        }
+        else {
+            int diff = (int) isoPickerIndex - (int) row;
+            NSLog(@"diff : %d", diff);
+            UIImage *image = self.imageView.image;
+            
+            cv::Mat img = [self cvMatFromUIImage:image];
+            int beta = globalDiff;
+            
+            if (diff<0) {
+                cv::Mat brighter;
+                beta = diff*-1;
+                img.convertTo(brighter, -1, 1, 25*beta);
+                
+                _imageView.image = [self UIImageFromCVMat:brighter];
+                
+                globalDiff += diff;
+                
+            }
+            if (diff>0) {
+                cv::Mat darker;
+                beta = diff;
+                img.convertTo(darker, -1, 1, -25*beta);
+                
+                _imageView.image = [self UIImageFromCVMat:darker];
+                
+                globalDiff += diff;
+            }
+            
+        }
+        
         isoPickerIndex = (int) row;
     }
     
@@ -555,9 +615,11 @@ int globalDiff = 0;
     isChanged = !isChanged;
     if (isChanged==true) {
         _linkValues.tintColor = [UIColor lightGrayColor];
+        [_linkValues setTitle:@"Unlik values" forState:UIControlStateNormal];
     }
     else {
         _linkValues.tintColor = [UIColor blueColor];
+        [_linkValues setTitle:@"Link values" forState:UIControlStateNormal];
     }
     
     
