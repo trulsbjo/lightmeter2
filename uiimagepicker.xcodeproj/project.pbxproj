@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		690C7B1318D0DCFF00FD081C /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 690C7B1218D0DCFF00FD081C /* opencv2.framework */; };
 		C555CC0C18C488160078EC73 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C555CC0B18C488160078EC73 /* Foundation.framework */; };
 		C555CC0E18C488160078EC73 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C555CC0D18C488160078EC73 /* CoreGraphics.framework */; };
 		C555CC1018C488160078EC73 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C555CC0F18C488160078EC73 /* UIKit.framework */; };
@@ -14,7 +15,7 @@
 		C555CC1818C488160078EC73 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C555CC1718C488160078EC73 /* main.m */; };
 		C555CC1C18C488160078EC73 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C555CC1B18C488160078EC73 /* AppDelegate.m */; };
 		C555CC1F18C488160078EC73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C555CC1D18C488160078EC73 /* Main.storyboard */; };
-		C555CC2218C488160078EC73 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C555CC2118C488160078EC73 /* ViewController.m */; };
+		C555CC2218C488160078EC73 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = C555CC2118C488160078EC73 /* ViewController.mm */; };
 		C555CC2418C488160078EC73 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C555CC2318C488160078EC73 /* Images.xcassets */; };
 		C555CC2B18C488160078EC73 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C555CC2A18C488160078EC73 /* XCTest.framework */; };
 		C555CC2C18C488160078EC73 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C555CC0B18C488160078EC73 /* Foundation.framework */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		690C7B1218D0DCFF00FD081C /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		C555CC0818C488160078EC73 /* uiimagepicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uiimagepicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C555CC0B18C488160078EC73 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C555CC0D18C488160078EC73 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -47,7 +49,7 @@
 		C555CC1B18C488160078EC73 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C555CC1E18C488160078EC73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C555CC2018C488160078EC73 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		C555CC2118C488160078EC73 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		C555CC2118C488160078EC73 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		C555CC2318C488160078EC73 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C555CC2918C488160078EC73 /* uiimagepickerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = uiimagepickerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C555CC2A18C488160078EC73 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -65,6 +67,7 @@
 				C555CC4118C48DEC0078EC73 /* ImageIO.framework in Frameworks */,
 				C555CC0E18C488160078EC73 /* CoreGraphics.framework in Frameworks */,
 				C555CC1018C488160078EC73 /* UIKit.framework in Frameworks */,
+				690C7B1318D0DCFF00FD081C /* opencv2.framework in Frameworks */,
 				C555CC0C18C488160078EC73 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -104,6 +107,7 @@
 		C555CC0A18C488160078EC73 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				690C7B1218D0DCFF00FD081C /* opencv2.framework */,
 				C555CC4018C48DEC0078EC73 /* ImageIO.framework */,
 				C555CC0B18C488160078EC73 /* Foundation.framework */,
 				C555CC0D18C488160078EC73 /* CoreGraphics.framework */,
@@ -120,7 +124,7 @@
 				C555CC1B18C488160078EC73 /* AppDelegate.m */,
 				C555CC1D18C488160078EC73 /* Main.storyboard */,
 				C555CC2018C488160078EC73 /* ViewController.h */,
-				C555CC2118C488160078EC73 /* ViewController.m */,
+				C555CC2118C488160078EC73 /* ViewController.mm */,
 				C555CC2318C488160078EC73 /* Images.xcassets */,
 				C555CC1218C488160078EC73 /* Supporting Files */,
 			);
@@ -253,7 +257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C555CC2218C488160078EC73 /* ViewController.m in Sources */,
+				C555CC2218C488160078EC73 /* ViewController.mm in Sources */,
 				C555CC1C18C488160078EC73 /* AppDelegate.m in Sources */,
 				C555CC1818C488160078EC73 /* main.m in Sources */,
 			);
@@ -382,6 +386,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "uiimagepicker/uiimagepicker-Prefix.pch";
 				INFOPLIST_FILE = "uiimagepicker/uiimagepicker-Info.plist";
@@ -395,6 +403,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "uiimagepicker/uiimagepicker-Prefix.pch";
 				INFOPLIST_FILE = "uiimagepicker/uiimagepicker-Info.plist";
@@ -464,6 +476,7 @@
 				C555CC3C18C488160078EC73 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C555CC3D18C488160078EC73 /* Build configuration list for PBXNativeTarget "uiimagepickerTests" */ = {
 			isa = XCConfigurationList;
@@ -472,6 +485,7 @@
 				C555CC3F18C488160078EC73 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -9,9 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <ImageIO/ImageIO.h>
 #import <ImageIO/CGImageDestination.h>
+#import <opencv2/highgui/cap_ios.h>
 
 @interface ViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     bool isChanged;
+    
+    bool shutterHasChanged;
+    bool apertureHasChanged;
+    bool isoHasChanged;
 
 }
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
