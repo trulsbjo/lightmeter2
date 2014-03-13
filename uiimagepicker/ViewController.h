@@ -12,11 +12,15 @@
 #import <opencv2/highgui/cap_ios.h>
 
 @interface ViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
-    bool isChanged;
+    bool isLinked;
     
     bool shutterHasChanged;
     bool apertureHasChanged;
     bool isoHasChanged;
+    
+    bool linkedShutterHasChanged;
+    bool linkedApertureHasChanged;
+    bool linkedIsoHasChanged;
 
 }
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;

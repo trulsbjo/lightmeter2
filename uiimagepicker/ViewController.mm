@@ -19,6 +19,11 @@ int shutterPickerIndex;
 int aperturePickerIndex;
 int isoPickerIndex;
 
+int globalDiff;
+
+int lastSet;
+int secondLastSet;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -35,11 +40,19 @@ int isoPickerIndex;
     aperturePickerIndex = 0;
     isoPickerIndex = 0;
     
-    isChanged = false;
+    globalDiff = 0;
+    lastSet = -1;
+    secondLastSet = -1;
+    
+    isLinked = false;
     
     apertureHasChanged = false;
     shutterHasChanged = false;
     isoHasChanged = false;
+    
+    linkedApertureHasChanged = false;
+    linkedShutterHasChanged = false;
+    linkedIsoHasChanged = false;
     
     
 }
@@ -64,6 +77,8 @@ int isoPickerIndex;
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     // Now we want to launch the picker interface
     [self presentViewController:picker animated:YES completion:NULL];
+    
+
 }
 
 
@@ -80,25 +95,9 @@ int isoPickerIndex;
     // We're now done with our picker, so tell it to go away
     [picker dismissViewControllerAnimated:YES completion:NULL];
 
-    
-    
+    lastSet = -1;
+    secondLastSet = -1;
 
-//    CGFloat brightness = 0.5;
-//    UIImage *brighten = [self addBrightness:chosenImage :&brightness];
-    
-//    self.imageView.image = brighten;
-   
-    
-    
-    
-//    CGFloat darkness = 0.5;
-//    UIImage *darknen = [self addDarkness:chosenImage :&darkness];
-//    
-//    self.imageView.image = darknen;
-    
-    
-    
-    
     
     //getting metadata from taken image
     NSDictionary *metadata = info[UIImagePickerControllerMediaMetadata];
@@ -112,9 +111,9 @@ int isoPickerIndex;
     NSString *fnumber = [exifMetadata objectForKey: @"FNumber"];
     
 
-    NSLog(@"shutter: %@", shutter);
-    NSLog(@"iso: %@", iso);
-    NSLog(@"aperture: %@", fnumber);
+//    NSLog(@"shutter: %@", shutter);
+//    NSLog(@"iso: %@", iso);
+//    NSLog(@"aperture: %@", fnumber);
     
     //setting picker value for aperture
     
@@ -288,9 +287,9 @@ int isoPickerIndex;
      aperturePickerIndex = (int) [self.valuePicker selectedRowInComponent:1];
      isoPickerIndex = (int) [self.valuePicker selectedRowInComponent:2];
     
-    NSLog(@"%f", shutterValue);
-    NSLog(@"%f", apertureValue);
-    NSLog(@"%f", isoValue);
+//    NSLog(@"%f", shutterValue);
+//    NSLog(@"%f", apertureValue);
+//    NSLog(@"%f", isoValue);
     
     
 }
@@ -304,46 +303,6 @@ int isoPickerIndex;
     
 }
 
-//- (UIImage*) addBrightness: (UIImage*)image :(CGFloat*) brightness {
-//    
-//    UIGraphicsBeginImageContext(image.size);
-//    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-//    
-//    // Original image
-//    [image drawInRect:imageRect];
-//    
-//    // Brightness overlay
-//    CGContextSetFillColorWithColor(context, [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:*brightness].CGColor);
-//    CGContextAddRect(context, imageRect);
-//    CGContextFillPath(context);
-//    
-//    UIImage* resultBrightImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    
-//    return resultBrightImage;
-//}
-//
-//- (UIImage*) addDarkness: (UIImage*)image :(CGFloat*) darkness {
-//    
-//    UIGraphicsBeginImageContext(image.size);
-//    CGRect imagedDarkRect = CGRectMake(0, 0, image.size.width, image.size.height);
-//    CGContextRef darkContext = UIGraphicsGetCurrentContext();
-//    
-//    // Original image
-//    [image drawInRect:imagedDarkRect];
-//    
-//    // Brightness overlay
-//    CGContextSetFillColorWithColor(darkContext, [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:*darkness].CGColor);
-//    CGContextAddRect(darkContext, imagedDarkRect);
-//    CGContextFillPath(darkContext);
-//    
-//    UIImage* resultDarkImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    
-//    
-//    return resultDarkImage;
-//}
 
 #pragma mark -
 #pragma mark PickerView DataSource
@@ -385,7 +344,7 @@ numberOfRowsInComponent:(NSInteger)component
     }
 }
 
-int globalDiff = 0;
+
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row
       inComponent:(NSInteger)component
@@ -393,11 +352,32 @@ int globalDiff = 0;
     
     
     if(component == 0) {
-        if (isChanged==true) {
+        if (isLinked==true) {
             
             int diff = (int) shutterPickerIndex - (int) row;
-            aperturePickerIndex += diff;
-            [pickerView selectRow:aperturePickerIndex inComponent:1 animated:YES];
+            
+            if (linkedApertureHasChanged == false && linkedIsoHasChanged == false) {
+                secondLastSet = 0;
+            }
+            else {
+                lastSet = 0;
+                if (secondLastSet==2) {
+                    aperturePickerIndex += diff;
+                    [pickerView selectRow:aperturePickerIndex inComponent:1 animated:YES];
+                    
+                    secondLastSet = 0;
+                    
+                }
+                else {
+                    isoPickerIndex += diff;
+                    [pickerView selectRow:isoPickerIndex inComponent:2 animated:YES];
+                    
+                    secondLastSet = 0;
+                    
+                }
+            }
+            
+            linkedShutterHasChanged = true;
 
         }
         else {
@@ -431,6 +411,7 @@ int globalDiff = 0;
                 }
                 
                 shutterHasChanged = true;
+                
                 
             }
             else {
@@ -470,10 +451,31 @@ int globalDiff = 0;
         
         
     } else if (component == 1) {
-        if (isChanged == true) {
+        if (isLinked == true) {
             int diff = (int) aperturePickerIndex - (int) row;
-            shutterPickerIndex += diff;
-            [pickerView selectRow:shutterPickerIndex inComponent:0 animated:YES];
+            
+            if (linkedShutterHasChanged == false && linkedIsoHasChanged == false) {
+                secondLastSet = 1;
+            }
+            else {
+                lastSet = 1;
+                if (secondLastSet==2) {
+                    shutterPickerIndex += diff;
+                    [pickerView selectRow:shutterPickerIndex inComponent:0 animated:YES];
+                    
+                    secondLastSet = 1;
+                    
+                }
+                else {
+                    isoPickerIndex += diff;
+                    [pickerView selectRow:isoPickerIndex inComponent:2 animated:YES];
+                    
+                    secondLastSet = 1;
+                   
+                }
+            }
+            
+            linkedApertureHasChanged = true;
             
         }
         else {
@@ -506,7 +508,7 @@ int globalDiff = 0;
                 }
                 
                 apertureHasChanged = true;
-           
+                
                 
             }
             else {
@@ -544,76 +546,110 @@ int globalDiff = 0;
         aperturePickerIndex = (int) row;
                 
     } else {
-        if (!isoHasChanged) {
-            int diff = (int) isoPickerIndex - (int) row;
-            NSLog(@"diff : %d", diff);
-            UIImage *image = self.imageView.image;
+        if (isLinked==true) {
+            int diff = (int)isoPickerIndex - (int)row;
             
-            cv::Mat img = [self cvMatFromUIImage:image];
-            int beta =0;
-            
-            if (diff<0) {
-                cv::Mat brighter;
-                beta = diff*-1;
-                img.convertTo(brighter, -1, 1, 25*beta);
-                
-                _imageView.image = [self UIImageFromCVMat:brighter];
-                
-                globalDiff += diff;
-                
+            if (linkedShutterHasChanged==false && linkedApertureHasChanged==false) {
+                secondLastSet = 2;
             }
-            if (diff>0) {
-                cv::Mat darker;
-                beta = diff;
-                img.convertTo(darker, -1, 1, -25*beta);
-                
-                _imageView.image = [self UIImageFromCVMat:darker];
-                
-                globalDiff += diff;
+            else {
+                lastSet = 2;
+                if (secondLastSet==0) {
+                    aperturePickerIndex += diff;
+                    [pickerView selectRow:aperturePickerIndex inComponent:1 animated:YES];
+                    
+                    secondLastSet = 2;
+                   
+                }
+                else {
+                    shutterPickerIndex += diff;
+                    [pickerView selectRow:shutterPickerIndex inComponent:0 animated:YES];
+                    
+                    secondLastSet = 2;
+                   
+                }
             }
             
-            isoHasChanged = true;
+            linkedIsoHasChanged = true;
+            
         }
         else {
-            int diff = (int) isoPickerIndex - (int) row;
-            NSLog(@"diff : %d", diff);
-            UIImage *image = self.imageView.image;
-            
-            cv::Mat img = [self cvMatFromUIImage:image];
-            int beta = globalDiff;
-            
-            if (diff<0) {
-                cv::Mat brighter;
-                beta = diff*-1;
-                img.convertTo(brighter, -1, 1, 25*beta);
+            if (!isoHasChanged) {
+                int diff = (int) isoPickerIndex - (int) row;
+                NSLog(@"diff : %d", diff);
+                UIImage *image = self.imageView.image;
                 
-                _imageView.image = [self UIImageFromCVMat:brighter];
+                cv::Mat img = [self cvMatFromUIImage:image];
+                int beta =0;
                 
-                globalDiff += diff;
+                if (diff<0) {
+                    cv::Mat brighter;
+                    beta = diff*-1;
+                    img.convertTo(brighter, -1, 1, 25*beta);
+                    
+                    _imageView.image = [self UIImageFromCVMat:brighter];
+                    
+                    globalDiff += diff;
+                    
+                    
+                }
+                if (diff>0) {
+                    cv::Mat darker;
+                    beta = diff;
+                    img.convertTo(darker, -1, 1, -25*beta);
+                    
+                    _imageView.image = [self UIImageFromCVMat:darker];
+                    
+                    globalDiff += diff;
+                }
+                
+                isoHasChanged = true;
+            }
+            else {
+                int diff = (int) isoPickerIndex - (int) row;
+                NSLog(@"diff : %d", diff);
+                UIImage *image = self.imageView.image;
+                
+                cv::Mat img = [self cvMatFromUIImage:image];
+                int beta = globalDiff;
+                
+                if (diff<0) {
+                    cv::Mat brighter;
+                    beta = diff*-1;
+                    img.convertTo(brighter, -1, 1, 25*beta);
+                    
+                    _imageView.image = [self UIImageFromCVMat:brighter];
+                    
+                    globalDiff += diff;
+                    
+                }
+                if (diff>0) {
+                    cv::Mat darker;
+                    beta = diff;
+                    img.convertTo(darker, -1, 1, -25*beta);
+                    
+                    _imageView.image = [self UIImageFromCVMat:darker];
+                    
+                    globalDiff += diff;
+                }
                 
             }
-            if (diff>0) {
-                cv::Mat darker;
-                beta = diff;
-                img.convertTo(darker, -1, 1, -25*beta);
-                
-                _imageView.image = [self UIImageFromCVMat:darker];
-                
-                globalDiff += diff;
-            }
             
+            isoPickerIndex = (int) row;
         }
         
-        isoPickerIndex = (int) row;
     }
+    
+    NSLog(@"last set :%d", lastSet);
+    NSLog(@"second last set :%d", secondLastSet);
     
     NSLog(@"globalDiff : %d", globalDiff);
     
 }
 
 - (IBAction)changeLinkedValues:(id)sender {
-    isChanged = !isChanged;
-    if (isChanged==true) {
+    isLinked = !isLinked;
+    if (isLinked==true) {
         _linkValues.tintColor = [UIColor lightGrayColor];
         [_linkValues setTitle:@"Unlik values" forState:UIControlStateNormal];
     }
