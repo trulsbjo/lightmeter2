@@ -54,7 +54,8 @@ int secondLastSet;
     linkedShutterHasChanged = false;
     linkedIsoHasChanged = false;
     
-    
+    _valuePicker.alpha = 0;
+    _linkValues.hidden = YES;
 }
 
 
@@ -88,6 +89,10 @@ int secondLastSet;
 // picker is which picker called this function; only really useful if you have multiple pickers
 // info is a dictionary object contains the original image taken, the resized image, and some other things
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    _valuePicker.alpha = 1;
+    _linkValues.hidden = NO;
+    
     // Take the resized image out of the info dictionary
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     // Tell imageView that it's going to display that image
