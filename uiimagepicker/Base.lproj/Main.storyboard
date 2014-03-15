@@ -48,10 +48,21 @@
                                     <action selector="changeLinkedValues:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="MZ4-ln-epk"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZC-J5-nPI">
+                                <rect key="frame" x="162" y="40" width="138" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Show Histogram">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="getHistogram:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="lWo-hA-PjH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="histogramButton" destination="hZC-J5-nPI" id="dh7-DM-xY5"/>
                         <outlet property="imageView" destination="ViU-eR-1e4" id="SFK-l4-Qm0"/>
                         <outlet property="linkValues" destination="XSH-rL-aMJ" id="1sp-LA-ikw"/>
                         <outlet property="valuePicker" destination="2sD-SP-2Zf" id="xUY-iQ-mQW"/>

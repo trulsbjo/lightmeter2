@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 
+
 @interface ViewController ()
 
 @end
@@ -24,10 +25,22 @@ int globalDiff;
 int lastSet;
 int secondLastSet;
 
+NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+NSInteger num;
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    if ([defaults objectForKey:@"counter"] != nil) {
+        NSNumber *aNum = [defaults objectForKey:@"counter"];
+        num = [aNum intValue];
+    } else {
+        num = 0;
+    }
+
     
     //picker values
     _shutterValues = @[@"1/1000s", @"1/500s", @"1/250s", @"1/125s", @"1/60s", @"1/30s", @"1/15s", @"1/8s", @"1/4s", @"1/2s", @"1s"];
@@ -54,8 +67,11 @@ int secondLastSet;
     linkedShutterHasChanged = false;
     linkedIsoHasChanged = false;
     
+    histogramIsShown = false;
+    
     _valuePicker.alpha = 0;
     _linkValues.hidden = YES;
+    _histogramButton.hidden = YES;
 }
 
 
@@ -92,6 +108,7 @@ int secondLastSet;
     
     _valuePicker.alpha = 1;
     _linkValues.hidden = NO;
+    _histogramButton.hidden = NO;
     
     // Take the resized image out of the info dictionary
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
@@ -728,6 +745,192 @@ numberOfRowsInComponent:(NSInteger)component
     return finalImage;
 }
 
+
+
+- (IBAction)getHistogram:(id)sender {
+    histogramIsShown = !histogramIsShown;
+    
+    int hist_w = 512; int hist_h = 400;
+    
+    UIImageView* newView;
+    newView = [[UIImageView alloc] initWithFrame:CGRectMake(3, hist_h/3, hist_w - 200, hist_h/2)];
+    
+//    NSLog(@"hist button title is :%@", _histogramButton.titleLabel.text);
+//    NSLog(@"histo button check :%d", [_histogramButton.titleLabel.text isEqualToString:@"Remove Histogram"]);
+    
+    if ([_histogramButton.titleLabel.text isEqualToString:@"Hide Histogram"] == 1) {
+        [self.view bringSubviewToFront:_imageView];
+
+        
+        [_histogramButton setTitle:@"Show Histogram" forState:UIControlStateNormal];
+    }
+    else {
+        cv::Mat image = [self cvMatFromUIImage:_imageView.image];
+        
+        // allcoate memory for no of pixels for each intensity value
+        int histogram[256];
+        
+        // initialize all intensity values to 0
+        for(int i = 0; i < 255; i++)
+        {
+            histogram[i] = 0;
+        }
+        
+        // calculate the no of pixels for each intensity values
+        for(int y = 0; y < image.rows; y++)
+            for(int x = 0; x < image.cols; x++)
+                histogram[(int)image.at<uchar>(y,x)]++;
+        
+        // draw the histograms
+        
+        int bin_w = cvRound((double) hist_w/256);
+        
+        cv::Mat histImage(hist_h, hist_w, CV_8UC1, cvScalar(255, 255, 255));
+        
+        // find the maximum intensity element from histogram
+        int max = histogram[0];
+        for(int i = 1; i < 256; i++){
+            if(max < histogram[i]){
+                max = histogram[i];
+            }
+        }
+        
+        NSLog(@"max :%d", max);
+        
+        // normalize the histogram between 0 and histImage.rows
+         NSString  *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@_%ld.plist", @"file", (long)num]];
+        
+        NSMutableArray *histArrayToSave = [NSMutableArray arrayWithContentsOfFile:path];
+        if(histArrayToSave == nil) histArrayToSave = [NSMutableArray array];
+        
+        NSInteger count = 0;
+        
+        
+        for(int i = 0; i < 255; i++){
+            histogram[i] = ((double)histogram[i]/max)*histImage.rows;
+            
+            [histArrayToSave addObject:[NSNumber numberWithInt:histogram[i]]];
+            
+            count += histogram[i];
+             NSLog(@"histarray :%@", histArrayToSave[i]);
+        }
+        NSLog(@"count :%ld", (long)count);
+        
+    
+       
+        
+        // draw the intensity line for histogram
+        for(int i = 0; i < 255; i++)
+        {
+            line(histImage, cv::Point(bin_w*(i), hist_h),
+                 
+                 cv::Point(bin_w*(i), hist_h - histogram[i]),
+                 cv::Scalar(0,0,0), 1, 8, 0);
+        }
+        
+        
+        
+        
+        // display histogram
+        newView.image = [self UIImageFromCVMat:histImage];
+        [self.view insertSubview:newView aboveSubview:_imageView];
+        
+        [_histogramButton setTitle:@"Hide Histogram" forState:UIControlStateNormal];
+        
+        
+        //save histogram data
+       
+        
+        
+        
+        //save image
+        NSString  *imgPath = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@_%ld.png", @"image", (long)num]];
+        
+        num += 1;
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt: num] forKey:@"counter"];
+        [defaults synchronize];
+        
+        [histArrayToSave writeToFile:path atomically:YES];
+        NSLog(@"save complete");
+        
+        UIImage *convImage = _imageView.image;
+        NSData* imageData = UIImageJPEGRepresentation(convImage, 1.0);
+        [imageData writeToFile:imgPath atomically:YES];
+        NSLog(@"Image saved");
+
+        
+        [defaults synchronize];
+        
+        
+    }
+    
+    
+//    cv::Mat src, dst, gray;
+//    
+//    /// Load image
+//    src = [self cvMatFromUIImage:_imageView.image];
+//    
+//    cvCvtColor(&src, &gray, CV_BGR2GRAY);
+//    
+//    /// Separate the image in 3 places ( B, G and R )
+//    cv::vector<cv::Mat> bgr_planes;
+//    split( src, bgr_planes );
+//    
+//    
+//    /// Establish the number of bins
+//    int histSize = 256;
+//    
+//    /// Set the ranges ( for B,G,R) )
+//    float range[] = { 0, 256 } ;
+//    const float* histRange = { range };
+//    
+//    bool uniform = true; bool accumulate = false;
+//    
+//    cv::Mat b_hist, g_hist, r_hist, gray_hist;
+//    
+//    /// Compute the histograms:
+//    calcHist( &bgr_planes[0], 1, 0, cv::Mat(), b_hist, 1, &histSize, &histRange, uniform, accumulate );
+//    calcHist( &bgr_planes[1], 1, 0, cv::Mat(), g_hist, 1, &histSize, &histRange, uniform, accumulate );
+//    calcHist( &bgr_planes[2], 1, 0, cv::Mat(), r_hist, 1, &histSize, &histRange, uniform, accumulate );
+//    
+//    
+//    // Draw the histograms for B, G and R
+//    int hist_w = 512; int hist_h = 400;
+//    int bin_w = cvRound( (double) hist_w/histSize );
+//    
+//    cv::Mat histImage( hist_h, hist_w, CV_8UC3, cvScalar( 0,0,0) );
+//    
+//    /// Normalize the result to [ 0, histImage.rows ]
+//    normalize(b_hist, b_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+//    normalize(g_hist, g_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+//    normalize(r_hist, r_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
+//    
+//    /// Draw for each channel
+//    for( int i = 1; i < histSize; i++ )
+//    {
+//        line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(b_hist.at<float>(i-1)) ) ,
+//             cv::Point( bin_w*(i), hist_h - cvRound(b_hist.at<float>(i)) ),
+//             cv::Scalar( 255, 0, 0), 2, 8, 0  );
+//        line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(g_hist.at<float>(i-1)) ) ,
+//             cv::Point( bin_w*(i), hist_h - cvRound(g_hist.at<float>(i)) ),
+//             cv::Scalar( 0, 255, 0), 2, 8, 0  );
+//        line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(r_hist.at<float>(i-1)) ) ,
+//             cv::Point( bin_w*(i), hist_h - cvRound(r_hist.at<float>(i)) ),
+//             cv::Scalar( 0, 0, 255), 2, 8, 0  );
+//    }
+//    
+//    /// Display
+//    _imageView.image = [self UIImageFromCVMat:histImage];
+
+
+    
+    
+}
+
+
+
 #endif
+
 
 @end

@@ -10,6 +10,7 @@
 #import <ImageIO/ImageIO.h>
 #import <ImageIO/CGImageDestination.h>
 #import <opencv2/highgui/cap_ios.h>
+#include <opencv2/legacy/compat.hpp>
 
 @interface ViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     bool isLinked;
@@ -21,6 +22,8 @@
     bool linkedShutterHasChanged;
     bool linkedApertureHasChanged;
     bool linkedIsoHasChanged;
+    
+    bool histogramIsShown;
 
 }
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -37,5 +40,9 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *valuePicker;
 @property (weak, nonatomic) IBOutlet UIButton *linkValues;
 - (IBAction)changeLinkedValues:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIButton *histogramButton;
+- (IBAction)getHistogram:(id)sender;
+
 
 @end
