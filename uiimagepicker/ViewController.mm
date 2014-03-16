@@ -371,7 +371,7 @@ numberOfRowsInComponent:(NSInteger)component
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row
       inComponent:(NSInteger)component
 {
-    
+    int exposure_step = 50;
     
     if(component == 0) {
         if (isLinked==true) {
@@ -414,7 +414,7 @@ numberOfRowsInComponent:(NSInteger)component
                 if (diff<0) {
                     cv::Mat brighter;
                     beta = diff*-1;
-                    img.convertTo(brighter, -1, 1, 25*beta);
+                    img.convertTo(brighter, -1, 1, exposure_step*beta);
                     
                     _imageView.image = [self UIImageFromCVMat:brighter];
                     
@@ -424,7 +424,7 @@ numberOfRowsInComponent:(NSInteger)component
                 if (diff>0) {
                     cv::Mat darker;
                     beta = diff;
-                    img.convertTo(darker, -1, 1, -25*beta);
+                    img.convertTo(darker, -1, 1, -exposure_step*beta);
                     
                     _imageView.image = [self UIImageFromCVMat:darker];
                     
@@ -447,7 +447,7 @@ numberOfRowsInComponent:(NSInteger)component
                 if (diff<0) {
                     cv::Mat brighter;
                     beta = diff*-1;
-                    img.convertTo(brighter, -1, 1, 25*beta);
+                    img.convertTo(brighter, -1, 1, exposure_step*beta);
                     
                     _imageView.image = [self UIImageFromCVMat:brighter];
                     
@@ -457,7 +457,7 @@ numberOfRowsInComponent:(NSInteger)component
                 if (diff>0) {
                     cv::Mat darker;
                     beta = diff;
-                    img.convertTo(darker, -1, 1, -25*beta);
+                    img.convertTo(darker, -1, 1, -exposure_step*beta);
                     
                     _imageView.image = [self UIImageFromCVMat:darker];
                     
@@ -512,7 +512,7 @@ numberOfRowsInComponent:(NSInteger)component
                 if (diff<0) {
                     cv::Mat brighter;
                     beta = diff*-1;
-                    img.convertTo(brighter, -1, 1, 25*beta);
+                    img.convertTo(brighter, -1, 1, exposure_step*beta);
                 
                     _imageView.image = [self UIImageFromCVMat:brighter];
                     
@@ -522,7 +522,7 @@ numberOfRowsInComponent:(NSInteger)component
                 if (diff>0) {
                     cv::Mat darker;
                     beta = diff;
-                    img.convertTo(darker, -1, 1, -25*beta);
+                    img.convertTo(darker, -1, 1, -exposure_step*beta);
                 
                     _imageView.image = [self UIImageFromCVMat:darker];
                     
@@ -544,7 +544,7 @@ numberOfRowsInComponent:(NSInteger)component
                 if (diff<0) {
                     cv::Mat brighter;
                     beta = diff*-1;
-                    img.convertTo(brighter, -1, 1, 25*beta);
+                    img.convertTo(brighter, -1, 1, exposure_step*beta);
                     
                     _imageView.image = [self UIImageFromCVMat:brighter];
                     
@@ -554,7 +554,7 @@ numberOfRowsInComponent:(NSInteger)component
                 if (diff>0) {
                     cv::Mat darker;
                     beta = diff;
-                    img.convertTo(darker, -1, 1, -25*beta);
+                    img.convertTo(darker, -1, 1, -exposure_step*beta);
                     
                     _imageView.image = [self UIImageFromCVMat:darker];
                     
@@ -607,7 +607,7 @@ numberOfRowsInComponent:(NSInteger)component
                 if (diff<0) {
                     cv::Mat brighter;
                     beta = diff*-1;
-                    img.convertTo(brighter, -1, 1, 25*beta);
+                    img.convertTo(brighter, -1, 1, exposure_step*beta);
                     
                     _imageView.image = [self UIImageFromCVMat:brighter];
                     
@@ -618,7 +618,7 @@ numberOfRowsInComponent:(NSInteger)component
                 if (diff>0) {
                     cv::Mat darker;
                     beta = diff;
-                    img.convertTo(darker, -1, 1, -25*beta);
+                    img.convertTo(darker, -1, 1, -exposure_step*beta);
                     
                     _imageView.image = [self UIImageFromCVMat:darker];
                     
@@ -638,7 +638,7 @@ numberOfRowsInComponent:(NSInteger)component
                 if (diff<0) {
                     cv::Mat brighter;
                     beta = diff*-1;
-                    img.convertTo(brighter, -1, 1, 25*beta);
+                    img.convertTo(brighter, -1, 1, exposure_step*beta);
                     
                     _imageView.image = [self UIImageFromCVMat:brighter];
                     
@@ -648,7 +648,7 @@ numberOfRowsInComponent:(NSInteger)component
                 if (diff>0) {
                     cv::Mat darker;
                     beta = diff;
-                    img.convertTo(darker, -1, 1, -25*beta);
+                    img.convertTo(darker, -1, 1, -exposure_step*beta);
                     
                     _imageView.image = [self UIImageFromCVMat:darker];
                     
