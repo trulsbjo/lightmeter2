@@ -380,6 +380,8 @@ numberOfRowsInComponent:(NSInteger)component
             
             if (linkedApertureHasChanged == false && linkedIsoHasChanged == false) {
                 secondLastSet = 0;
+                aperturePickerIndex += diff;
+                [pickerView selectRow:aperturePickerIndex inComponent:1 animated:YES];
             }
             else {
                 lastSet = 0;
@@ -478,6 +480,8 @@ numberOfRowsInComponent:(NSInteger)component
             
             if (linkedShutterHasChanged == false && linkedIsoHasChanged == false) {
                 secondLastSet = 1;
+                isoPickerIndex += diff;
+                [pickerView selectRow:isoPickerIndex inComponent:2 animated:YES];
             }
             else {
                 lastSet = 1;
@@ -573,6 +577,8 @@ numberOfRowsInComponent:(NSInteger)component
             
             if (linkedShutterHasChanged==false && linkedApertureHasChanged==false) {
                 secondLastSet = 2;
+                shutterPickerIndex += diff;
+                [pickerView selectRow:shutterPickerIndex inComponent:0 animated:YES];
             }
             else {
                 lastSet = 2;
@@ -807,7 +813,7 @@ numberOfRowsInComponent:(NSInteger)component
         
         
         for(int i = 0; i < 255; i++){
-            histogram[i] = ((double)histogram[i]/max)*histImage.rows;
+            histogram[i] = ((double)histogram[i]/(max/10))*histImage.rows;
             
             [histArrayToSave addObject:[NSNumber numberWithInt:histogram[i]]];
             
@@ -864,70 +870,9 @@ numberOfRowsInComponent:(NSInteger)component
         
         
     }
-    
-    
-//    cv::Mat src, dst, gray;
-//    
-//    /// Load image
-//    src = [self cvMatFromUIImage:_imageView.image];
-//    
-//    cvCvtColor(&src, &gray, CV_BGR2GRAY);
-//    
-//    /// Separate the image in 3 places ( B, G and R )
-//    cv::vector<cv::Mat> bgr_planes;
-//    split( src, bgr_planes );
-//    
-//    
-//    /// Establish the number of bins
-//    int histSize = 256;
-//    
-//    /// Set the ranges ( for B,G,R) )
-//    float range[] = { 0, 256 } ;
-//    const float* histRange = { range };
-//    
-//    bool uniform = true; bool accumulate = false;
-//    
-//    cv::Mat b_hist, g_hist, r_hist, gray_hist;
-//    
-//    /// Compute the histograms:
-//    calcHist( &bgr_planes[0], 1, 0, cv::Mat(), b_hist, 1, &histSize, &histRange, uniform, accumulate );
-//    calcHist( &bgr_planes[1], 1, 0, cv::Mat(), g_hist, 1, &histSize, &histRange, uniform, accumulate );
-//    calcHist( &bgr_planes[2], 1, 0, cv::Mat(), r_hist, 1, &histSize, &histRange, uniform, accumulate );
-//    
-//    
-//    // Draw the histograms for B, G and R
-//    int hist_w = 512; int hist_h = 400;
-//    int bin_w = cvRound( (double) hist_w/histSize );
-//    
-//    cv::Mat histImage( hist_h, hist_w, CV_8UC3, cvScalar( 0,0,0) );
-//    
-//    /// Normalize the result to [ 0, histImage.rows ]
-//    normalize(b_hist, b_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
-//    normalize(g_hist, g_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
-//    normalize(r_hist, r_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat() );
-//    
-//    /// Draw for each channel
-//    for( int i = 1; i < histSize; i++ )
-//    {
-//        line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(b_hist.at<float>(i-1)) ) ,
-//             cv::Point( bin_w*(i), hist_h - cvRound(b_hist.at<float>(i)) ),
-//             cv::Scalar( 255, 0, 0), 2, 8, 0  );
-//        line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(g_hist.at<float>(i-1)) ) ,
-//             cv::Point( bin_w*(i), hist_h - cvRound(g_hist.at<float>(i)) ),
-//             cv::Scalar( 0, 255, 0), 2, 8, 0  );
-//        line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(r_hist.at<float>(i-1)) ) ,
-//             cv::Point( bin_w*(i), hist_h - cvRound(r_hist.at<float>(i)) ),
-//             cv::Scalar( 0, 0, 255), 2, 8, 0  );
-//    }
-//    
-//    /// Display
-//    _imageView.image = [self UIImageFromCVMat:histImage];
-
-
-    
+ 
     
 }
-
 
 
 #endif
