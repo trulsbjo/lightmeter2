@@ -382,6 +382,7 @@ numberOfRowsInComponent:(NSInteger)component
                 secondLastSet = 0;
                 aperturePickerIndex += diff;
                 [pickerView selectRow:aperturePickerIndex inComponent:1 animated:YES];
+                lastSet = 1;
             }
             else {
                 lastSet = 0;
@@ -482,6 +483,7 @@ numberOfRowsInComponent:(NSInteger)component
                 secondLastSet = 1;
                 isoPickerIndex += diff;
                 [pickerView selectRow:isoPickerIndex inComponent:2 animated:YES];
+                lastSet = 2;
             }
             else {
                 lastSet = 1;
@@ -579,6 +581,7 @@ numberOfRowsInComponent:(NSInteger)component
                 secondLastSet = 2;
                 shutterPickerIndex += diff;
                 [pickerView selectRow:shutterPickerIndex inComponent:0 animated:YES];
+                lastSet = 0;
             }
             else {
                 lastSet = 2;
