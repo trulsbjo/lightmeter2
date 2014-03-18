@@ -504,7 +504,7 @@ numberOfRowsInComponent:(NSInteger)component
         [_linkValues setTitle:@"Unlik values" forState:UIControlStateNormal];
     }
     else {
-        _linkValues.tintColor = [UIColor blueColor];
+        _linkValues.tintColor = [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
         [_linkValues setTitle:@"Link values" forState:UIControlStateNormal];
     }
     
