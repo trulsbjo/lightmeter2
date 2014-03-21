@@ -75,6 +75,7 @@ bool hasFirstPickerBeenSelected;
     _valuePicker.alpha = 0;
     _linkValues.hidden = YES;
     _histogramButton.hidden = YES;
+    
 }
 
 

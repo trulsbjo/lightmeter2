@@ -28,6 +28,7 @@
 }
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 - (IBAction)takePicture:(id)sender;
+@property (strong, nonatomic) IBOutlet UIButton *takePictureButton;
 
 @property (strong, nonatomic) NSArray *shutterValues;
 @property (strong, nonatomic) NSArray *apertureValues;

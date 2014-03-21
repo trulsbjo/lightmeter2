@@ -9,8 +9,8 @@
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="dpy-kM-cpB"/>
-                        <viewControllerLayoutGuide type="bottom" id="76y-Oa-6AS"/>
+                        <viewControllerLayoutGuide type="top" id="0Qx-aj-9pP"/>
+                        <viewControllerLayoutGuide type="bottom" id="NV6-3N-SUY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -21,7 +21,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rZd-y7-uEI">
-                                <rect key="frame" x="119" y="32" width="83" height="30"/>
+                                <rect key="frame" x="119" y="38" width="83" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Take picture">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -65,6 +65,7 @@
                         <outlet property="histogramButton" destination="hZC-J5-nPI" id="dh7-DM-xY5"/>
                         <outlet property="imageView" destination="ViU-eR-1e4" id="SFK-l4-Qm0"/>
                         <outlet property="linkValues" destination="XSH-rL-aMJ" id="1sp-LA-ikw"/>
+                        <outlet property="takePictureButton" destination="rZd-y7-uEI" id="DKL-ta-S7k"/>
                         <outlet property="valuePicker" destination="2sD-SP-2Zf" id="xUY-iQ-mQW"/>
                     </connections>
                 </viewController>
